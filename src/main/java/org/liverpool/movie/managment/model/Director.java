@@ -11,6 +11,13 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
+/**
+ * The object Director represent the data about the movie director.
+ * It has a list of {@link Movie} to the director's movies
+ * 
+ * @author daniele.dagostino
+ *
+ */
 public class Director implements Serializable {
 
 	private static final long serialVersionUID = 7363759658762898935L;

@@ -16,6 +16,14 @@ import javax.persistence.ManyToOne;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
+/**
+ * The Rating object represents a set of scores entered by insertion date.
+ * It is possible to use the data to carry out arithmetic averages and analyze 
+ * the trend of change in the popularity of the {@link Movie}.
+ * 
+ * @author daniele.dagostino
+ *
+ */
 public class Rating implements Serializable {
 
 	private static final long serialVersionUID = -4423858878126015670L;

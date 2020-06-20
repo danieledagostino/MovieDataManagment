@@ -14,6 +14,13 @@ import javax.persistence.OneToMany;
 import com.sun.istack.NotNull;
 
 @Entity
+/**
+ * The Movie object represents the set of films 
+ * associated to {@link Director}
+ * 
+ * @author daniele.dagostino
+ *
+ */
 public class Movie implements Serializable {
 
 	private static final long serialVersionUID = 2792584852500747814L;
