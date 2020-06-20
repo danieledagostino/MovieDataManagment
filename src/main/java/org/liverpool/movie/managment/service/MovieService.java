@@ -22,9 +22,6 @@ import lombok.extern.slf4j.Slf4j;
 public class MovieService {
 	
 	@Autowired
-	MovieRepository movieRepository;
-	
-	@Autowired
 	DirectorRepository directorRepository;
 	
 	@Autowired
