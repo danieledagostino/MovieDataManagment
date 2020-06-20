@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.liverpool.movie.managment.beanapi.DirectorBeanApi;
+import org.liverpool.movie.managment.beanapi.MovieBeanApi;
 import org.liverpool.movie.managment.model.Director;
 import org.liverpool.movie.managment.model.Movie;
-import org.liverpool.movie.managment.model.Rating;
 import org.liverpool.movie.managment.projection.RatingProjection;
 import org.liverpool.movie.managment.repository.DirectorRepository;
 import org.liverpool.movie.managment.repository.MovieRepository;
@@ -88,5 +89,16 @@ public class MovieService implements IGenericCrud<Movie> {
 	
 	public List<Movie> searchByTitle(String title){
 		return repository.searchByTitle(title);
+	}
+	
+	public MovieBeanApi getById(Integer id) {
+		Movie movie = repository.getOne(id);
+		MovieBeanApi beanApi = new MovieBeanApi();
+		
+		beanApi.setId(movie.getId());
+		beanApi.setName(movie.getName());
+		beanApi.setDirector(new DirectorBeanApi(movie.getDirector().getId(), movie.getDirector().getName()));
+		
+		return beanApi;
 	}
 }
