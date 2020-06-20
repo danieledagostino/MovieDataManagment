@@ -3,7 +3,6 @@ package org.liverpool.movie.managment.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -41,8 +40,8 @@ public class Rating implements Serializable {
 		updatable = false)
 	private Date insertDate;
 	
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Movie.class)
-	private Set<Movie> movies;
+	@OneToOne(fetch = FetchType.LAZY, targetEntity = Movie.class)
+	private Movie movie;
 
 	public Integer getId() {
 		return id;
@@ -68,12 +67,12 @@ public class Rating implements Serializable {
 		this.insertDate = insertDate;
 	}
 
-	public Set<Movie> getMovies() {
-		return movies;
+	public Movie getMovie() {
+		return movie;
 	}
 
-	public void setMovies(Set<Movie> movies) {
-		this.movies = movies;
+	public void setMovie(Movie movie) {
+		this.movie = movie;
 	}
-	
+
 }

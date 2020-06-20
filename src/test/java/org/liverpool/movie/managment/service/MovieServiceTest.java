@@ -2,6 +2,7 @@ package org.liverpool.movie.managment.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.Before;
@@ -51,7 +52,7 @@ public class MovieServiceTest {
 
     @Test
     @Order(1)    
-    public void A_testSearchMoviesByDirectorName() throws Exception {
+    public void searchMoviesByDirectorName() throws Exception {
     	
     	List<Movie> list = movieService.searchMoviesByDirector("Stephen Spielberg");
     	
@@ -63,10 +64,20 @@ public class MovieServiceTest {
     
     @Test
     @Order(2)    
-    public void B_searchByTitle() throws Exception {
+    public void searchByTitle() throws Exception {
     	
     	List<Movie> list = movieService.searchByTitle("ll");
     	
+    	assertThat(list).size().isEqualTo(2);
+    }
+    
+    @Test
+    @Order(3)
+    public void searchByRatingScore() throws Exception {
+    	
+    	List<Movie> list = movieService.
+    			searchMoviesWithScoreAbove(new BigDecimal(2.0));
+    		
     	assertThat(list).size().isEqualTo(2);
     }
     

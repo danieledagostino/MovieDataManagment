@@ -6,7 +6,9 @@ import org.liverpool.movie.managment.model.Director;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface DirectorRepository extends JpaRepository<Director, Integer>{
 	
 	@Query(value = "from Director where name like '%:name%'")
