@@ -1,5 +1,6 @@
 package org.liverpool.movie.managment.repository;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
@@ -22,9 +23,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @DataJpaTest
+//@Sql(executionPhase=ExecutionPhase.BEFORE_TEST_METHOD,scripts="classpath:/test-sql/insert.sql")
 @Transactional
 @TestMethodOrder(OrderAnnotation.class)
-public class MovieRepositoryAfterInsertTest {
+public class DirectorRepositoryTest {
 	
 	Director director = null;
 	Example<Director> example = null;
@@ -34,34 +36,38 @@ public class MovieRepositoryAfterInsertTest {
 	
 	@Before
 	public void setUp() {
-		Director d = new Director();
-    	d.setName("Federico Fellini");
-    	d = directorRepository.save(d);
-    	
-    	assertTrue(d.getId().intValue() > 0);
+		director = new Director();
+		director.setName("Quentin Tarantino");
+		example = Example.of(director);
 	}
 
     @Test
     @Order(1)    
-    public void D_testInsertNewDirector() throws Exception {
+    public void A_testSearchByDirectorName() throws Exception {
+    	
+    	Optional<Director> found = directorRepository.findOne(example);
+    	assertTrue(found.isPresent());
+    }
+    
+    @Test
+    @Order(2)    
+    public void B_testAssertNumberOfMovies() throws Exception {
+    	
+    	Optional<Director> found = directorRepository.findOne(example);
+    	Director d = found.get();
+    	
+    	assertTrue(d.getMovies().size() == 3);
+    }
+    
+    @Test
+    @Order(3)    
+    public void C_testInsertNewDirector() throws Exception {
     	
     	Director d = new Director();
     	d.setName("Federico Fellini");
-    	Example<Director> example = Example.of(d);
-    	Optional<Director> found = directorRepository.findOne(example);
-
-    	d = found.get();
-    	
-    	Set<Movie> movies = new HashSet<Movie>();
-    	movies.add(new Movie("La dolce vita"));
-    	movies.add(new Movie("Roma"));
-    	
-    	d.setMovies(movies);
-    	
     	d = directorRepository.save(d);
     	
-    	d.getMovies().forEach( movie -> {
-    		assertTrue(movie.getId().intValue() > 0);
-    	});
+    	assertThat(d).isNotNull();
     }
+    
 }

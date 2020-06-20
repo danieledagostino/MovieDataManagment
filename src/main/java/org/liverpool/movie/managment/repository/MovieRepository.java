@@ -14,6 +14,6 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
 	@Query(value = "from Rating where score = :score")
 	List<Movie> searchMoviesHasRatingGreaterThan(@Param("score") BigDecimal score);
 
-	@Query(value = "from Movie where name like '%:title%'")
+	@Query(value = "from Movie where name like %:title%")
 	List<Movie> searchByTitle(@Param("title") String title);
 }
