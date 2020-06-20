@@ -1,9 +1,9 @@
 package org.liverpool.movie.managment.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+
 import org.liverpool.movie.managment.model.Director;
 import org.liverpool.movie.managment.model.Movie;
 import org.liverpool.movie.managment.repository.DirectorRepository;
@@ -11,15 +11,16 @@ import org.liverpool.movie.managment.repository.MovieRepository;
 import org.liverpool.movie.managment.repository.RatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class MovieService {
+public class MovieService implements IGenericCrud<Movie> {
+	
+	@Autowired
+	MovieRepository repository;
 	
 	@Autowired
 	DirectorRepository directorRepository;
@@ -48,5 +49,21 @@ public class MovieService {
 		}
 		
 		return movieList;
+	}
+
+	@Override
+	public boolean insert(Movie movie) {
+		Movie m = repository.save(movie);
+
+		return (m != null);
+	}
+
+	@Override
+	public void delete(Movie movie) {
+		repository.delete(movie);
+	}
+	
+	public List<Movie> searchByTitle(String title){
+		return repository.searchByTitle(title);
 	}
 }
