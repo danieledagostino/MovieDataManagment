@@ -5,6 +5,8 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -17,6 +19,7 @@ public class Movie implements Serializable {
 	private static final long serialVersionUID = 2792584852500747814L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	
 	@NotNull
@@ -27,6 +30,14 @@ public class Movie implements Serializable {
 	
 	@OneToMany(fetch = FetchType.LAZY)
 	private Set<Rating> ratings;
+	
+	public Movie() {
+		
+	}
+	
+	public Movie(String title) {
+		this.name = title;
+	}
 
 	public Integer getId() {
 		return id;
