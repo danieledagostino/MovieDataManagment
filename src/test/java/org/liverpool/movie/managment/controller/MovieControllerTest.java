@@ -137,4 +137,23 @@ public class MovieControllerTest {
 		this.mockMvc.perform(delete(ApiBaseUrl + "delete/0")).andExpect(status().isBadRequest());
 	}
 	
+	@Test
+	@Order(7)
+	public void updateAndExistingMovieData() throws Exception {
+		String title = "Indiana Jones";
+		
+		MovieBeanApi movieBeanApi = new MovieBeanApi();
+		movieBeanApi.setId(10);
+		movieBeanApi.setName(title);
+		
+		String requestJson = objectMapper.writeValueAsString(movieBeanApi);
+		
+		this.mockMvc.perform(put(ApiBaseUrl + "update").contentType(APPLICATION_JSON_UTF8)
+		        .content(requestJson))
+		        .andExpect(status().isOk());
+		
+		this.mockMvc.perform(get(ApiBaseUrl + "findById/10")).andExpect(status().isOk())
+				.andExpect(jsonPath("$[0].name", is(title)));
+	}
+	
 }
