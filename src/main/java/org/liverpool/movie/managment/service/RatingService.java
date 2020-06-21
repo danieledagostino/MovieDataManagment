@@ -26,11 +26,11 @@ public class RatingService implements IGenericCrud<RatingBeanApi> {
 	@Autowired
 	Messages message;
 
-	public boolean insertOrUpdate(RatingBeanApi ratingBeanApi) throws Exception {
+	public RatingBeanApi insert(RatingBeanApi ratingBeanApi) throws Exception {
 		Rating r = toRating(ratingBeanApi);
 		r = repository.save(r);
 
-		return (r != null);
+		return toDTO(r);
 	}
 
 	@Override
@@ -76,5 +76,13 @@ public class RatingService implements IGenericCrud<RatingBeanApi> {
 		}
 		
 		return rating;
+	}
+	
+	@Override
+	public boolean update(RatingBeanApi beanApi) throws Exception {
+		Rating r = toRating(beanApi);
+		r = repository.save(r);
+
+		return (r != null);
 	}
 }

@@ -80,11 +80,11 @@ public class MovieService implements IGenericCrud<MovieBeanApi> {
 	}
 
 	@Override
-	public boolean insertOrUpdate(MovieBeanApi movieBeanApi) throws Exception {
+	public MovieBeanApi insert(MovieBeanApi movieBeanApi) throws Exception {
 		Movie m = toMovie(movieBeanApi);
 		m = repository.save(m);
 
-		return (m != null);
+		return toDTO(m);
 	}
 
 	@Override
@@ -135,5 +135,13 @@ public class MovieService implements IGenericCrud<MovieBeanApi> {
 		}
 		
 		return movie;
+	}
+	
+	@Override
+	public boolean update(MovieBeanApi beanApi) throws Exception {
+		Movie m = toMovie(beanApi);
+		m = repository.save(m);
+
+		return (m != null);
 	}
 }

@@ -1,5 +1,6 @@
 package org.liverpool.movie.managment.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -34,6 +35,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -106,10 +108,13 @@ public class MovieControllerTest {
 		
 		String requestJson = objectMapper.writeValueAsString(movieBeanApi);
 		
+		//MvcResult response = 
 		this.mockMvc.perform(put(ApiBaseUrl + "new").contentType(APPLICATION_JSON_UTF8)
 		        .content(requestJson))
-		        .andExpect(status().isCreated());
+		        .andExpect(status().isCreated())
+		        .andExpect(jsonPath("$.id", is(11)));
 		
+		//assertThat(response.getResponse().getContentAsString()).c
 	}
 	
 	@Test
@@ -151,8 +156,7 @@ public class MovieControllerTest {
 		
 		this.mockMvc.perform(put(ApiBaseUrl + "update").contentType(APPLICATION_JSON_UTF8)
 		        .content(requestJson))
-		        .andExpect(status().isOk())
-				.andExpect(jsonPath("$[0].name", is(title)));
+		        .andExpect(status().isOk());				
 	}
 	
 }

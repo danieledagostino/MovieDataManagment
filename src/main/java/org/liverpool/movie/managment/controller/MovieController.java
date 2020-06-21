@@ -64,24 +64,24 @@ public class MovieController {
 		@ApiResponse(code = 400, message = "Movie not inserted due to a malformed request")
 	})
     @PutMapping(value = "/new", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> newMovie(@RequestBody(required = true) MovieBeanApi movie) throws Exception
+    public ResponseEntity<MovieBeanApi> newMovie(@RequestBody(required = true) MovieBeanApi movie) throws Exception
     {
     	log.info("newMovie method requested");
     	
-    	boolean inserted = false;
+    	MovieBeanApi inserted = null;
     	
     	try {
-    		inserted = movieService.insertOrUpdate(movie);
+    		inserted = movieService.insert(movie);
 	  	} catch (Exception e) {
 			log.error("Movie not inserted", e);
 			
-			return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<MovieBeanApi>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
     	
-    	if (inserted) {
-    		return new ResponseEntity<String>(HttpStatus.CREATED);
+    	if (inserted != null) {
+    		return new ResponseEntity<MovieBeanApi>(inserted, HttpStatus.CREATED);
     	} else {
-    		return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+    		return new ResponseEntity<MovieBeanApi>(HttpStatus.BAD_REQUEST);
     	}
     }
     
@@ -138,7 +138,7 @@ public class MovieController {
 	  	boolean updated = false;
 	  	
 	  	try {
-	  		updated = movieService.insertOrUpdate(movie);
+	  		updated = movieService.update(movie);
 	  	} catch (Exception e) {
 			log.error("Movie not updated", e);
 			

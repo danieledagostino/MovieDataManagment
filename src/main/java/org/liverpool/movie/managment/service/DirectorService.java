@@ -10,9 +10,11 @@ import javax.persistence.criteria.CriteriaQuery;
 import org.hibernate.criterion.Restrictions;
 import org.liverpool.movie.managment.beanapi.DirectorBeanApi;
 import org.liverpool.movie.managment.beanapi.MovieBeanApi;
+import org.liverpool.movie.managment.beanapi.RatingBeanApi;
 import org.liverpool.movie.managment.component.Messages;
 import org.liverpool.movie.managment.model.Director;
 import org.liverpool.movie.managment.model.Movie;
+import org.liverpool.movie.managment.model.Rating;
 import org.liverpool.movie.managment.repository.DirectorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,11 +29,11 @@ public class DirectorService implements IGenericCrud<DirectorBeanApi> {
 	Messages message;
 	
 	@Override
-	public boolean insertOrUpdate(DirectorBeanApi director) throws Exception {
+	public DirectorBeanApi insert(DirectorBeanApi director) throws Exception {
 		Director d = toDirector(director);
 		d = repository.save(d);
 
-		return (d != null);
+		return toDTO(d);
 	}
 
 	@Override
@@ -53,6 +55,14 @@ public class DirectorService implements IGenericCrud<DirectorBeanApi> {
 		Director director = repository.getOne(id);
 		
 		return toDTO(director);
+	}
+	
+	@Override
+	public boolean update(DirectorBeanApi beanApi) throws Exception {
+		Director d = toDirector(beanApi);
+		d = repository.save(d);
+
+		return (d != null);
 	}
 	
 	private DirectorBeanApi toDTO(Director director) {
