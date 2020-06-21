@@ -15,11 +15,11 @@ public class MovieBeanApi {
 	private DirectorBeanApi director;
 	private RatingBeanApi rating;
 	
-	private void MovieBeanApi() {
+	public MovieBeanApi() {
 
 	}
 	
-	private void MovieBeanApi(Integer id) {
+	public MovieBeanApi(Integer id) {
 		this.id = id;
 	}
 }

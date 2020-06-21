@@ -3,6 +3,7 @@ package org.liverpool.movie.managment.model;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -10,6 +11,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import com.sun.istack.NotNull;
 
@@ -32,7 +37,7 @@ public class Movie implements Serializable {
 	@NotNull
 	private String name;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY)
 	private Director director;
 	
 	@OneToMany(fetch = FetchType.LAZY)
@@ -40,6 +45,10 @@ public class Movie implements Serializable {
 	
 	public Movie() {
 		
+	}
+	
+	public Movie(Integer id) {
+		this.id = id;
 	}
 	
 	public Movie(String title) {

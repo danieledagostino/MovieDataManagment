@@ -13,4 +13,13 @@ public class RatingBeanApi {
 	
 	private Integer id;
 	private BigDecimal score;
+	private MovieBeanApi movieBeanApi;
+	
+	public RatingBeanApi() {
+
+	}
+	
+	public RatingBeanApi(Integer id) {
+		this.id = id;
+	}
 }

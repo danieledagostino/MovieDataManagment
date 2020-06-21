@@ -75,6 +75,12 @@ public class MovieService implements IGenericCrud<MovieBeanApi> {
 		return movies;
 	}
 
+	/**
+	 * This method insert a new {@link Movie} from a {@link MovieBeanAPi}
+	 * 
+	 *  @param movieBeanApi the movie object
+	 *  @return It returns true if the returned Movie object will successfully inserted
+	 */
 	@Override
 	public boolean insert(MovieBeanApi movieBeanApi) {
 		Movie m = toMovie(movieBeanApi);
@@ -83,10 +89,20 @@ public class MovieService implements IGenericCrud<MovieBeanApi> {
 		return (m != null);
 	}
 
+	/**
+	 * This method delete a {@link Movie} from a {@link MovieBeanAPi}
+	 * 
+	 *  @param movieBeanApi the movie object
+	 *  @throws It throws an {@link IllegalArgumentException} in case the given entity is null or malformed
+	 */
 	@Override
-	public void delete(MovieBeanApi movieBeanApi) {
+	public void delete(Integer id) throws IllegalArgumentException {
 		
-		Movie m = toMovie(movieBeanApi);
+		if (id == null || new Integer(0).equals(id)) {
+			throw new IllegalArgumentException("The passed id is null or not correct");
+		}
+		
+		Movie m = toMovie(new MovieBeanApi(id));
 		repository.delete(m);
 	}
 	

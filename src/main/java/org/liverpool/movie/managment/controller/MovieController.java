@@ -8,9 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,7 +33,7 @@ public class MovieController {
     	return beanApi; 
     }
     
-    @PostMapping(value = "/new", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/new", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> newMovie(@RequestBody(required = true) MovieBeanApi movie) throws Exception
     {
     	boolean inserted = movieService.insert(movie);
@@ -51,5 +52,17 @@ public class MovieController {
     	List<MovieBeanApi> list = movieService.searchByTitle(title);
     	
     	return list; 
+    }
+    
+    @DeleteMapping(value = "/delete/{id}")
+    public ResponseEntity<String> deleteMovie(@PathVariable(name = "id") Integer id) throws Exception
+    {
+    	try {
+    		movieService.delete(id);
+    		
+    		return new ResponseEntity<String>(HttpStatus.OK); 
+    	} catch (Exception e) {
+    		return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		}
     }
 }

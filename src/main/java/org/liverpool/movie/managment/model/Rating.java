@@ -12,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -40,7 +42,8 @@ public class Rating implements Serializable {
 		updatable = false)
 	private Date insertDate;
 	
-	@OneToOne(fetch = FetchType.LAZY, targetEntity = Movie.class)
+	@OneToOne(fetch = FetchType.LAZY, targetEntity = Movie.class, orphanRemoval = true)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Movie movie;
 
 	public Integer getId() {
