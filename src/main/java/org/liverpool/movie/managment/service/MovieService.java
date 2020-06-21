@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.liverpool.movie.managment.beanapi.DirectorBeanApi;
 import org.liverpool.movie.managment.beanapi.MovieBeanApi;
+import org.liverpool.movie.managment.component.Messages;
 import org.liverpool.movie.managment.model.Director;
 import org.liverpool.movie.managment.model.Movie;
 import org.liverpool.movie.managment.projection.RatingProjection;
@@ -31,6 +32,9 @@ public class MovieService implements IGenericCrud<MovieBeanApi> {
 	
 	@Autowired
 	RatingRepository ratingRepository;
+	
+	@Autowired
+	Messages message;
 
 	public List<Movie> searchMoviesByDirector(String directorName) {
 		
@@ -75,12 +79,6 @@ public class MovieService implements IGenericCrud<MovieBeanApi> {
 		return movies;
 	}
 
-	/**
-	 * This method insert a new {@link Movie} from a {@link MovieBeanAPi}
-	 * 
-	 *  @param movieBeanApi the movie object
-	 *  @return It returns true if the returned Movie object will successfully inserted
-	 */
 	@Override
 	public boolean insert(MovieBeanApi movieBeanApi) {
 		Movie m = toMovie(movieBeanApi);
@@ -89,17 +87,11 @@ public class MovieService implements IGenericCrud<MovieBeanApi> {
 		return (m != null);
 	}
 
-	/**
-	 * This method delete a {@link Movie} from a {@link MovieBeanAPi}
-	 * 
-	 *  @param movieBeanApi the movie object
-	 *  @throws It throws an {@link IllegalArgumentException} in case the given entity is null or malformed
-	 */
 	@Override
 	public void delete(Integer id) throws IllegalArgumentException {
 		
-		if (id == null || new Integer(0).equals(id)) {
-			throw new IllegalArgumentException("The passed id is null or not correct");
+		if (new Integer(0).equals(id)) {
+			throw new IllegalArgumentException(message.get("app.message.illegalarg.id.error"));
 		}
 		
 		Movie m = toMovie(new MovieBeanApi(id));
@@ -116,6 +108,7 @@ public class MovieService implements IGenericCrud<MovieBeanApi> {
 		return dtoList;
 	}
 	
+	@Override
 	public MovieBeanApi getById(Integer id) {
 		Movie movie = repository.getOne(id);
 		

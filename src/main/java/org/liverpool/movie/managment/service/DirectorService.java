@@ -10,6 +10,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import org.hibernate.criterion.Restrictions;
 import org.liverpool.movie.managment.beanapi.DirectorBeanApi;
 import org.liverpool.movie.managment.beanapi.MovieBeanApi;
+import org.liverpool.movie.managment.component.Messages;
 import org.liverpool.movie.managment.model.Director;
 import org.liverpool.movie.managment.model.Movie;
 import org.liverpool.movie.managment.repository.DirectorRepository;
@@ -22,6 +23,10 @@ public class DirectorService implements IGenericCrud<DirectorBeanApi> {
 	@Autowired
 	DirectorRepository repository;
 	
+	@Autowired
+	Messages message;
+	
+	@Override
 	public boolean insert(DirectorBeanApi director) {
 		Director d = toDirector(director);
 		d = repository.save(d);
@@ -29,9 +34,10 @@ public class DirectorService implements IGenericCrud<DirectorBeanApi> {
 		return (d != null);
 	}
 
+	@Override
 	public void delete(Integer id) {
 		if (id == null || new Integer(0).equals(id)) {
-			throw new IllegalArgumentException("The passed id is null or not correct");
+			throw new IllegalArgumentException(message.get("app.message.illegalarg.id.error"));
 		}
 		
 		Director d = toDirector(new DirectorBeanApi(id));

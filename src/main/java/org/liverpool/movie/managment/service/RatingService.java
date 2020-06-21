@@ -3,6 +3,7 @@ package org.liverpool.movie.managment.service;
 import org.liverpool.movie.managment.beanapi.DirectorBeanApi;
 import org.liverpool.movie.managment.beanapi.MovieBeanApi;
 import org.liverpool.movie.managment.beanapi.RatingBeanApi;
+import org.liverpool.movie.managment.component.Messages;
 import org.liverpool.movie.managment.model.Director;
 import org.liverpool.movie.managment.model.Movie;
 import org.liverpool.movie.managment.model.Rating;
@@ -21,6 +22,9 @@ public class RatingService implements IGenericCrud<RatingBeanApi> {
 
 	@Autowired
 	RatingRepository repository;
+	
+	@Autowired
+	Messages message;
 
 	public boolean insert(RatingBeanApi ratingBeanApi) {
 		Rating r = toRating(ratingBeanApi);
@@ -29,9 +33,10 @@ public class RatingService implements IGenericCrud<RatingBeanApi> {
 		return (r != null);
 	}
 
+	@Override
 	public void delete(Integer id) {
 		if (id == null || new Integer(0).equals(id)) {
-			throw new IllegalArgumentException("The passed id is null or not correct");
+			throw new IllegalArgumentException(message.get("app.message.illegalarg.id.error"));
 		}
 		
 		Rating r = toRating(new RatingBeanApi(id));

@@ -3,6 +3,7 @@ package org.liverpool.movie.managment.controller;
 import java.util.List;
 
 import org.liverpool.movie.managment.beanapi.MovieBeanApi;
+import org.liverpool.movie.managment.component.Messages;
 import org.liverpool.movie.managment.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,9 @@ public class MovieController {
     
     @Autowired
     MovieService movieService;
+    
+    @Autowired
+    Messages messages;
 
     @GetMapping("/findById/{id}")
     @ResponseBody

@@ -11,6 +11,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
 	
+	/**
+	 * searchByTitle provide a search within the movie table searching by its title
+	 * 
+	 * 
+	 * @param title
+	 * @return a {@link List} a movies have the given string in its title
+	 */
 	@Query(value = "from Movie where name like %:title%")
 	List<Movie> searchByTitle(@Param("title") String title);
 	

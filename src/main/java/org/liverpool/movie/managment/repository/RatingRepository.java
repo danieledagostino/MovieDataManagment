@@ -13,6 +13,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RatingRepository extends JpaRepository<Rating, Integer> {
 
+	/**
+	 * searchMoviesWithScoreAbove provide a search within the rating table where the given score is above the exist one
+	 * 
+	 * @param {@link BigDecimal} score
+	 * @return a {@link List} of Rating with only its identifier
+	 */
 	@Query(value = "select movie.id, max(insertDate) from Rating where score > :score "
 			+ "group by movie.id")
 	List<RatingProjection> searchMoviesWithScoreAbove(@Param("score") BigDecimal score);
