@@ -23,7 +23,7 @@ public class Director implements Serializable {
 	private static final long serialVersionUID = 7363759658762898935L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	private String name;

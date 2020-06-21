@@ -49,7 +49,6 @@ public class MovieControllerTest {
 	
     private ObjectMapper objectMapper;
 	
-	MovieBeanApi movieBeanApi = null;
 	Movie movie = null;
 	
 	public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
@@ -63,7 +62,7 @@ public class MovieControllerTest {
 	@Test
 	public void getMovieById() throws Exception {
 		
-		movieBeanApi = new MovieBeanApi();
+		MovieBeanApi movieBeanApi = new MovieBeanApi();
 		movieBeanApi.setId(1);
 		movieBeanApi.setName("Duel");
 		movieBeanApi.setDirector(new DirectorBeanApi(1, "Stephen Spielberg"));
@@ -93,7 +92,7 @@ public class MovieControllerTest {
 	
 	@Test
 	public void newInsert() throws Exception {
-		movieBeanApi = new MovieBeanApi();
+		MovieBeanApi movieBeanApi = new MovieBeanApi();
 		movieBeanApi.setName("E.T.");
 		movieBeanApi.setDirector(new DirectorBeanApi(1));
 		
@@ -101,7 +100,7 @@ public class MovieControllerTest {
 		
 		this.mockMvc.perform(post(ApiBaseUrl + "new").contentType(APPLICATION_JSON_UTF8)
 		        .content(requestJson))
-		        .andExpect(status().isOk());
+		        .andExpect(status().isCreated());
 		
 	}
 	

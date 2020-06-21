@@ -28,7 +28,7 @@ public class Rating implements Serializable {
 	private static final long serialVersionUID = -4423858878126015670L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	private BigDecimal score;
