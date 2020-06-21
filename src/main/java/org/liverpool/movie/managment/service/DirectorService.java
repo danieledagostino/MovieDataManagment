@@ -1,6 +1,8 @@
 package org.liverpool.movie.managment.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,8 +20,10 @@ import org.liverpool.movie.managment.model.Rating;
 import org.liverpool.movie.managment.repository.DirectorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class DirectorService implements IGenericCrud<DirectorBeanApi> {
 
 	@Autowired
@@ -46,8 +50,15 @@ public class DirectorService implements IGenericCrud<DirectorBeanApi> {
 		repository.delete(d);
 	}
 	
-	public List<Director> searchByName(String name){
-		return repository.searchByName(name);
+	public List<DirectorBeanApi> searchByName(String name){
+		List<DirectorBeanApi> list = new ArrayList<DirectorBeanApi>();
+		
+		List<Director> directors = repository.searchByName(name);
+		for (Director d : directors) {
+			list.add(toDTO(d));
+		}
+		
+		return list;
 	}
 	
 	@Override
@@ -70,6 +81,14 @@ public class DirectorService implements IGenericCrud<DirectorBeanApi> {
 		
 		beanApi.setId(director.getId());
 		beanApi.setName(director.getName());
+		beanApi.setMovies(new ArrayList<MovieBeanApi>());
+		Set<Movie> movies = null;
+		if ((movies = director.getMovies()) != null) {
+			for (Movie m : movies) {
+				beanApi.getMovies()
+					.add(new MovieBeanApi(m.getId(), m.getName()));
+			}
+		}
 		
 		return beanApi;
 	}
