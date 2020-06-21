@@ -22,4 +22,9 @@ public class MovieBeanApi {
 	public MovieBeanApi(Integer id) {
 		this.id = id;
 	}
+	
+	public MovieBeanApi(Integer id, String name) {
+		this.id = id;
+		this.name = name;
+	}
 }
