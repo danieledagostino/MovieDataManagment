@@ -1,10 +1,12 @@
 package org.liverpool.movie.managment.controller;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.net.URI;
@@ -54,6 +56,12 @@ public class MovieControllerTest {
 	
 	@Before
 	public void setUp() throws Exception {
+		objectMapper = new ObjectMapper();
+	}
+
+	@Test
+	public void getMovieById() throws Exception {
+		
 		movieBeanApi = new MovieBeanApi();
 		movieBeanApi.setId(1);
 		movieBeanApi.setName("Duel");
@@ -64,21 +72,14 @@ public class MovieControllerTest {
 		movie.setName("Duel");
 		movie.setDirector(new Director());
 		
-		objectMapper = new ObjectMapper();
-	}
-
-	@Test
-	public void getDirectorById() throws Exception {
-		Integer id = 1;
-		
 		String jsonContent = objectMapper.writeValueAsString(movieBeanApi);
-		when(movieRepository.getOne(id)).thenReturn(movie);
-		this.mockMvc.perform(get(ApiBaseUrl + "findById/1")).andDo(print()).andExpect(status().isOk())
+		//when(movieRepository.getOne(id)).thenReturn(movie);
+		this.mockMvc.perform(get(ApiBaseUrl + "findById/1")).andExpect(status().isOk())
 				.andExpect(content().json(jsonContent));
 	}
 
 	@Test
-	public void getRealDirectorById() throws Exception {
+	public void getRealMovieById() throws Exception {
 		TestRestTemplate restTemplate = new TestRestTemplate();
 		
 	    URI uri = new URI(baseUrl);
@@ -87,6 +88,25 @@ public class MovieControllerTest {
 	    
 	    assertEquals(200, result.getStatusCodeValue());
 	    assertEquals(result.getBody().getName(), "The Shark");
+	}
+	
+	@Test
+	public void newInsert() throws Exception {
+		movieBeanApi = new MovieBeanApi();
+		movieBeanApi.setName("E.T.");
+		movieBeanApi.setDirector(new DirectorBeanApi(1));
+		
+		this.mockMvc.perform(get(ApiBaseUrl + "new")).andExpect(status().isOk());
+		
+	}
+	
+	@Test
+	public void findMovieByName() throws Exception {
+		String title = "Close Encounters of the Third Kind";
+		
+		this.mockMvc.perform(get(ApiBaseUrl + "findByTitle")).andDo(print()).andExpect(status().isOk())
+				.andExpect(jsonPath("$.id", is(3)));
+		
 	}
 	
 }
