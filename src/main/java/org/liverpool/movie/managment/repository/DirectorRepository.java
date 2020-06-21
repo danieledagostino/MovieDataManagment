@@ -17,7 +17,7 @@ public interface DirectorRepository extends JpaRepository<Director, Integer>{
 	 * @param {@link String} name
 	 * @return a {@link List} a Director have the given string in its name
 	 */
-	@Query(value = "from Director where name like '%:name%'")
+	@Query(value = "from Director where name like %:name%")
 	public List<Director> searchByName(@Param("name") String name);
 	
 }
