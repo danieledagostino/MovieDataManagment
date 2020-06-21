@@ -25,7 +25,7 @@ public interface IGenericCrud<T> {
 	 *  @param beanApi the object
 	 *  @return It returns true if the returned Movie object will successfully inserted
 	 */
-	public boolean insert(T beanApi);
+	public boolean insertOrUpdate(T beanApi) throws Exception;
 
 	/**
 	 * This method delete an object of type T

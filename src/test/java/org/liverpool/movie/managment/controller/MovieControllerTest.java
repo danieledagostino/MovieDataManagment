@@ -94,7 +94,7 @@ public class MovieControllerTest {
 	    ResponseEntity<MovieBeanApi> result = restTemplate.getForEntity(uri, MovieBeanApi.class);
 	    
 	    assertEquals(200, result.getStatusCodeValue());
-	    assertEquals(result.getBody().getName(), "The Shark");
+	    assertEquals(result.getBody().getName(), "Jaws");
 	}
 	
 	@Test
@@ -145,14 +145,13 @@ public class MovieControllerTest {
 		MovieBeanApi movieBeanApi = new MovieBeanApi();
 		movieBeanApi.setId(10);
 		movieBeanApi.setName(title);
+		movieBeanApi.setDirector(new DirectorBeanApi(1));
 		
 		String requestJson = objectMapper.writeValueAsString(movieBeanApi);
 		
 		this.mockMvc.perform(put(ApiBaseUrl + "update").contentType(APPLICATION_JSON_UTF8)
 		        .content(requestJson))
-		        .andExpect(status().isOk());
-		
-		this.mockMvc.perform(get(ApiBaseUrl + "findById/10")).andExpect(status().isOk())
+		        .andExpect(status().isOk())
 				.andExpect(jsonPath("$[0].name", is(title)));
 	}
 	

@@ -27,7 +27,7 @@ public class DirectorService implements IGenericCrud<DirectorBeanApi> {
 	Messages message;
 	
 	@Override
-	public boolean insert(DirectorBeanApi director) {
+	public boolean insertOrUpdate(DirectorBeanApi director) throws Exception {
 		Director d = toDirector(director);
 		d = repository.save(d);
 

@@ -80,7 +80,7 @@ public class MovieService implements IGenericCrud<MovieBeanApi> {
 	}
 
 	@Override
-	public boolean insert(MovieBeanApi movieBeanApi) {
+	public boolean insertOrUpdate(MovieBeanApi movieBeanApi) throws Exception {
 		Movie m = toMovie(movieBeanApi);
 		m = repository.save(m);
 

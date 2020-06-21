@@ -18,8 +18,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping("/api/movie")
+@Api(value="Movies", tags="Manage the CRUD operations within the Movie table")
+@Slf4j
 public class MovieController {
     
     @Autowired
@@ -28,19 +36,47 @@ public class MovieController {
     @Autowired
     Messages messages;
 
-    @GetMapping("/findById/{id}")
-    @ResponseBody
-    public MovieBeanApi findById(@PathVariable(name = "id") Integer id) throws Exception
+    @ApiOperation(
+		      value = "Find a Movie by its identifier", 
+		      notes = "Returns data about the Movie",
+		      response = MovieBeanApi.class, 
+		      produces = "application/json")
+    @ApiResponses(value =
+	{   
+		@ApiResponse(code = 200, message = "Movie found")
+	})
+    @GetMapping(value = "/findById/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<MovieBeanApi> findById(@PathVariable(name = "id") Integer id) throws Exception
     {
+    	log.info("findById method requested");
+    	
     	MovieBeanApi beanApi = movieService.getById(id);
     	
-    	return beanApi; 
+    	return new ResponseEntity<MovieBeanApi>(beanApi, HttpStatus.OK);
     }
     
+    @ApiOperation(
+		      value = "Insert a new Movie",
+		      consumes = "application/json")
+	@ApiResponses(value =
+	{   
+		@ApiResponse(code = 201, message = "Movie inserted"),
+		@ApiResponse(code = 400, message = "Movie not inserted due to a malformed request")
+	})
     @PutMapping(value = "/new", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> newMovie(@RequestBody(required = true) MovieBeanApi movie) throws Exception
     {
-    	boolean inserted = movieService.insert(movie);
+    	log.info("newMovie method requested");
+    	
+    	boolean inserted = false;
+    	
+    	try {
+    		inserted = movieService.insertOrUpdate(movie);
+	  	} catch (Exception e) {
+			log.error("Movie not inserted", e);
+			
+			return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
     	
     	if (inserted) {
     		return new ResponseEntity<String>(HttpStatus.CREATED);
@@ -49,18 +85,34 @@ public class MovieController {
     	}
     }
     
+    @ApiOperation(
+		      value = "Find a Movie which has title like those present in database", 
+		      notes = "Returns a collection found of Movies",
+		      response = MovieBeanApi.class, 
+		      produces = "application/json")
     @GetMapping(value = "/searchByTitle", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<MovieBeanApi> findByTitle(@RequestBody String title) throws Exception	 
     {
+    	log.info("findByTitle method requested");
+    	
     	List<MovieBeanApi> list = movieService.searchByTitle(title);
     	
     	return list; 
     }
     
+    @ApiOperation(
+		      value = "Delete a Movie by its identifier")
+    @ApiResponses(value =
+	{   
+		@ApiResponse(code = 200, message = "Movie deleted"),
+		@ApiResponse(code = 400, message = "Movie not deleted due to a malformed request")
+	})
     @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity<String> deleteMovie(@PathVariable(name = "id") Integer id) throws Exception
     {
+    	log.info("deleteMovie method requested");
+    	
     	try {
     		movieService.delete(id);
     		
@@ -69,4 +121,34 @@ public class MovieController {
     		return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		}
     }
+    
+    @ApiOperation(
+		      value = "Update an existing Movie",
+		      consumes = "application/json")
+	@ApiResponses(value =
+	{   
+		@ApiResponse(code = 200, message = "Movie updated"),
+		@ApiResponse(code = 400, message = "Movie not inserted due to a malformed request")
+	})
+	@PutMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> updateMovie(@RequestBody(required = true) MovieBeanApi movie) throws Exception
+	{
+	  	log.info("updateMovie method requested");
+	  	
+	  	boolean updated = false;
+	  	
+	  	try {
+	  		updated = movieService.insertOrUpdate(movie);
+	  	} catch (Exception e) {
+			log.error("Movie not updated", e);
+			
+			return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	  	
+	  	if (updated) {
+	  		return new ResponseEntity<String>(HttpStatus.OK);
+	  	} else {
+	  		return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+	  	}
+	}
 }

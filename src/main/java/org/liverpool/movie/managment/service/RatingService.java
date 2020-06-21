@@ -26,7 +26,7 @@ public class RatingService implements IGenericCrud<RatingBeanApi> {
 	@Autowired
 	Messages message;
 
-	public boolean insert(RatingBeanApi ratingBeanApi) {
+	public boolean insertOrUpdate(RatingBeanApi ratingBeanApi) throws Exception {
 		Rating r = toRating(ratingBeanApi);
 		r = repository.save(r);
 
