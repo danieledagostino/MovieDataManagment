@@ -33,7 +33,8 @@ import static org.hamcrest.beans.HasPropertyWithValue.hasProperty;
 @DataJpaTest
 @Transactional
 @TestMethodOrder(OrderAnnotation.class)
-@ComponentScans({@ComponentScan("org.liverpool.movie.managment.service")})
+@ComponentScans({@ComponentScan("org.liverpool.movie.managment.service"),
+	@ComponentScan("org.liverpool.movie.managment.component")})
 public class MovieServiceTest {
 	
 	Movie movie = null;
@@ -55,7 +56,7 @@ public class MovieServiceTest {
     @Order(1)    
     public void searchMoviesByDirectorName() throws Exception {
     	
-    	List<Movie> list = movieService.searchMoviesByDirector("Stephen Spielberg");
+    	List<Movie> list = movieService.searchMoviesByDirector("Steven Spielberg");
     	
     	assertThat(list).size().isGreaterThan(0);
     	assertThat(list, hasItem(

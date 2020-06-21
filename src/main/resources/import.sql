@@ -1,4 +1,4 @@
-insert into director(id, name) values(1, 'Stephen Spielberg');
+insert into director(id, name) values(1, 'Steven Spielberg');
 insert into director(id, name) values(2, 'Martin Scorzese');
 insert into director(id, name) values(3, 'Quentin Tarantino');
 
