@@ -11,6 +11,7 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.runner.RunWith;
+import org.liverpool.movie.managment.beanapi.MovieBeanApi;
 import org.liverpool.movie.managment.model.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -66,7 +67,7 @@ public class MovieServiceTest {
     @Order(2)    
     public void searchByTitle() throws Exception {
     	
-    	List<Movie> list = movieService.searchByTitle("ll");
+    	List<MovieBeanApi> list = movieService.searchByTitle("ll");
     	
     	assertThat(list).size().isEqualTo(2);
     }

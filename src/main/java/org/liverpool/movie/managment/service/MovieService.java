@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class MovieService implements IGenericCrud<Movie> {
+public class MovieService implements IGenericCrud<MovieBeanApi> {
 	
 	@Autowired
 	MovieRepository repository;
@@ -76,23 +76,37 @@ public class MovieService implements IGenericCrud<Movie> {
 	}
 
 	@Override
-	public boolean insert(Movie movie) {
-		Movie m = repository.save(movie);
+	public boolean insert(MovieBeanApi movieBeanApi) {
+		Movie m = toMovie(movieBeanApi);
+		m = repository.save(m);
 
 		return (m != null);
 	}
 
 	@Override
-	public void delete(Movie movie) {
-		repository.delete(movie);
+	public void delete(MovieBeanApi movieBeanApi) {
+		
+		Movie m = toMovie(movieBeanApi);
+		repository.delete(m);
 	}
 	
-	public List<Movie> searchByTitle(String title){
-		return repository.searchByTitle(title);
+	public List<MovieBeanApi> searchByTitle(String title){
+		List<Movie> list = repository.searchByTitle(title);
+		List<MovieBeanApi> dtoList = new ArrayList<MovieBeanApi>();
+		
+		for (Movie m : list) {
+			dtoList.add(toDTO(m));
+		}
+		return dtoList;
 	}
 	
 	public MovieBeanApi getById(Integer id) {
 		Movie movie = repository.getOne(id);
+		
+		return toDTO(movie);
+	}
+	
+	private MovieBeanApi toDTO(Movie movie) {
 		MovieBeanApi beanApi = new MovieBeanApi();
 		
 		beanApi.setId(movie.getId());
@@ -100,5 +114,17 @@ public class MovieService implements IGenericCrud<Movie> {
 		beanApi.setDirector(new DirectorBeanApi(movie.getDirector().getId(), movie.getDirector().getName()));
 		
 		return beanApi;
+	}
+	
+	private Movie toMovie(MovieBeanApi dto) {
+		Movie movie = new Movie();
+		movie.setId(dto.getId());
+		movie.setName(dto.getName());
+		if (dto.getDirector() != null) {
+			Director d =new Director(dto.getDirector().getId(), dto.getDirector().getName());
+			movie.setDirector(d);
+		}
+		
+		return movie;
 	}
 }

@@ -30,6 +30,17 @@ public class Director implements Serializable {
 	
 	@OneToMany(fetch = FetchType.LAZY)
 	Set<Movie> movies;
+	
+	public Director() {
+	}
+	
+
+	public Director(Integer id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+
 
 	public Integer getId() {
 		return id;

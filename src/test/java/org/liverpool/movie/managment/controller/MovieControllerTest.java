@@ -2,14 +2,15 @@ package org.liverpool.movie.managment.controller;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.net.URI;
+import java.nio.charset.Charset;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,6 +26,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -47,12 +49,11 @@ public class MovieControllerTest {
 	
     private ObjectMapper objectMapper;
 	
-	private String movieDuelJson = "{'id': 1, 'name' : 'Duel', director : {'id': 1, 'name' : 'Stephen Spielberg'}, ratings : []}";
-
 	MovieBeanApi movieBeanApi = null;
 	Movie movie = null;
 	
-	private final String baseUrl = domain + ApiBaseUrl + "findById/2";
+	public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
+
 	
 	@Before
 	public void setUp() throws Exception {
@@ -82,7 +83,7 @@ public class MovieControllerTest {
 	public void getRealMovieById() throws Exception {
 		TestRestTemplate restTemplate = new TestRestTemplate();
 		
-	    URI uri = new URI(baseUrl);
+	    URI uri = new URI(domain + ApiBaseUrl + "findById/2");
 	    
 	    ResponseEntity<MovieBeanApi> result = restTemplate.getForEntity(uri, MovieBeanApi.class);
 	    
@@ -96,7 +97,11 @@ public class MovieControllerTest {
 		movieBeanApi.setName("E.T.");
 		movieBeanApi.setDirector(new DirectorBeanApi(1));
 		
-		this.mockMvc.perform(get(ApiBaseUrl + "new")).andExpect(status().isOk());
+		String requestJson = objectMapper.writeValueAsString(movieBeanApi);
+		
+		this.mockMvc.perform(post(ApiBaseUrl + "new").contentType(APPLICATION_JSON_UTF8)
+		        .content(requestJson))
+		        .andExpect(status().isOk());
 		
 	}
 	
@@ -104,8 +109,9 @@ public class MovieControllerTest {
 	public void findMovieByName() throws Exception {
 		String title = "Close Encounters of the Third Kind";
 		
-		this.mockMvc.perform(get(ApiBaseUrl + "findByTitle")).andDo(print()).andExpect(status().isOk())
-				.andExpect(jsonPath("$.id", is(3)));
+		this.mockMvc.perform(get(ApiBaseUrl + "searchByTitle").contentType(APPLICATION_JSON_UTF8)
+        .content(title)).andDo(print()).andExpect(status().isOk())
+				.andExpect(jsonPath("$[0].id", is(3)));
 		
 	}
 	
