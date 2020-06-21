@@ -73,7 +73,7 @@ public class MovieControllerTest {
 		MovieBeanApi movieBeanApi = new MovieBeanApi();
 		movieBeanApi.setId(1);
 		movieBeanApi.setName("Duel");
-		movieBeanApi.setDirector(new DirectorBeanApi(1, "Stephen Spielberg"));
+		movieBeanApi.setDirector(new DirectorBeanApi(1, "Steven Spielberg"));
 		
 		movie = new Movie();
 		movie.setId(1);
