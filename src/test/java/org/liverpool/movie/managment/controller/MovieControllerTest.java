@@ -2,8 +2,9 @@ package org.liverpool.movie.managment.controller;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -98,7 +99,7 @@ public class MovieControllerTest {
 		
 		String requestJson = objectMapper.writeValueAsString(movieBeanApi);
 		
-		this.mockMvc.perform(post(ApiBaseUrl + "new").contentType(APPLICATION_JSON_UTF8)
+		this.mockMvc.perform(put(ApiBaseUrl + "new").contentType(APPLICATION_JSON_UTF8)
 		        .content(requestJson))
 		        .andExpect(status().isCreated());
 		
@@ -112,6 +113,15 @@ public class MovieControllerTest {
         .content(title)).andDo(print()).andExpect(status().isOk())
 				.andExpect(jsonPath("$[0].id", is(3)));
 		
+	}
+	
+	@Test
+	public void getDeleteById() throws Exception {
+		
+		MovieBeanApi movieBeanApi = new MovieBeanApi();
+		movieBeanApi.setId(1);
+		
+		this.mockMvc.perform(delete(ApiBaseUrl + "delete/1")).andExpect(status().isOk());
 	}
 	
 }
