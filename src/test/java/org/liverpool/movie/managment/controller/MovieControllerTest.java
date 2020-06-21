@@ -15,6 +15,9 @@ import java.nio.charset.Charset;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.runner.RunWith;
 import org.liverpool.movie.managment.beanapi.DirectorBeanApi;
 import org.liverpool.movie.managment.beanapi.MovieBeanApi;
@@ -37,6 +40,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RunWith(SpringJUnit4ClassRunner.class)
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
+@TestMethodOrder(OrderAnnotation.class)
 public class MovieControllerTest {
 
 	private String domain = "http://localhost:8080";
@@ -61,6 +65,7 @@ public class MovieControllerTest {
 	}
 
 	@Test
+	@Order(1)
 	public void getMovieById() throws Exception {
 		
 		MovieBeanApi movieBeanApi = new MovieBeanApi();
@@ -80,6 +85,7 @@ public class MovieControllerTest {
 	}
 
 	@Test
+	@Order(2)
 	public void getRealMovieById() throws Exception {
 		TestRestTemplate restTemplate = new TestRestTemplate();
 		
@@ -92,6 +98,7 @@ public class MovieControllerTest {
 	}
 	
 	@Test
+	@Order(3)
 	public void newInsert() throws Exception {
 		MovieBeanApi movieBeanApi = new MovieBeanApi();
 		movieBeanApi.setName("E.T.");
@@ -106,6 +113,7 @@ public class MovieControllerTest {
 	}
 	
 	@Test
+	@Order(4)
 	public void findMovieByName() throws Exception {
 		String title = "Close Encounters of the Third Kind";
 		
@@ -116,12 +124,17 @@ public class MovieControllerTest {
 	}
 	
 	@Test
+	@Order(5)
 	public void getDeleteById() throws Exception {
 		
-		MovieBeanApi movieBeanApi = new MovieBeanApi();
-		movieBeanApi.setId(1);
-		
 		this.mockMvc.perform(delete(ApiBaseUrl + "delete/1")).andExpect(status().isOk());
+	}
+	
+	@Test
+	@Order(6)
+	public void getDeleteByIdZero() throws Exception {
+		
+		this.mockMvc.perform(delete(ApiBaseUrl + "delete/0")).andExpect(status().isBadRequest());
 	}
 	
 }
