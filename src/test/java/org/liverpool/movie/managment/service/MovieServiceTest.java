@@ -24,6 +24,13 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+/**
+ * MovieService test
+ * If you face any problem in executing this test try to switch to "test runner" engine when performing "run configuration" of this junit test
+ * 
+ * @author daniele.dagostino
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)

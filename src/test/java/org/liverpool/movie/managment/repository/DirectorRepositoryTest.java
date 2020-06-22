@@ -24,6 +24,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Example;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+/**
+ * MovieRepository test
+ * If you face any problem in executing this test try to switch to "test runner" engine when performing "run configuration" of this junit test
+ * 
+ * @author daniele.dagostino
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)

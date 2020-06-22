@@ -30,7 +30,7 @@ public class Director implements Serializable {
 	
 	private String name;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, 
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, 
 			mappedBy = "director")
 	Set<Movie> movies;
 	

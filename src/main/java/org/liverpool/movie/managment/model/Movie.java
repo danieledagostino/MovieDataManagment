@@ -38,11 +38,12 @@ public class Movie implements Serializable {
 	@NotNull
 	private String name;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "director_id", referencedColumnName = "id")
 	private Director director;
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE,
+			mappedBy = "movie")
 	private Set<Rating> ratings;
 	
 	public Movie() {

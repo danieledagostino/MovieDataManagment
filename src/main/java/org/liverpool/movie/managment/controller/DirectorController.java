@@ -92,7 +92,7 @@ public class DirectorController {
 		      produces = "application/json")
     @GetMapping(value = "/searchByName", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<DirectorBeanApi> findByTitle(@RequestBody String name) throws Exception	 
+    public List<DirectorBeanApi> findByName(@RequestBody String name) throws Exception	 
     {
     	log.info("findByTitle method requested");
     	
@@ -118,6 +118,7 @@ public class DirectorController {
     		
     		return new ResponseEntity<String>(HttpStatus.OK); 
     	} catch (Exception e) {
+    		log.error("Director not deleted", e);
     		return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		}
     }

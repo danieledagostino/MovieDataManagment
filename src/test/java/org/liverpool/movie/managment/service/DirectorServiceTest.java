@@ -17,6 +17,13 @@ import org.springframework.context.annotation.ComponentScans;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * DirectorService test
+ * If you face any problem in executing this test try to switch to "test runner" engine when performing "run configuration" of this junit test
+ * 
+ * @author daniele.dagostino
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @Transactional

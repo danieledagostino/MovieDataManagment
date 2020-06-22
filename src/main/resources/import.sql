@@ -19,10 +19,3 @@ insert into rating(id, score, insert_date, movie_id) values(3, 4.5, current_time
 insert into rating(id, score, insert_date, movie_id) values(4, 2.0, current_timestamp(), 5);
 insert into rating(id, score, insert_date, movie_id) values(5, 2.0, current_timestamp(), 9);
 insert into rating(id, score, insert_date, movie_id) values(6, 5.5, current_timestamp(), 9);
-
-insert into movie_ratings(movie_id, ratings_id) values(1, 1);
-insert into movie_ratings(movie_id, ratings_id) values(1, 2);
-insert into movie_ratings(movie_id, ratings_id) values(1, 3);
-insert into movie_ratings(movie_id, ratings_id) values(5, 4);
-insert into movie_ratings(movie_id, ratings_id) values(9, 5);
-insert into movie_ratings(movie_id, ratings_id) values(9, 6);

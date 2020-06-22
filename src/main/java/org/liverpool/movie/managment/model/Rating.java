@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.OnDelete;
@@ -42,8 +43,8 @@ public class Rating implements Serializable {
 		updatable = false)
 	private Date insertDate;
 	
-	@OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
-	@OnDelete(action = OnDeleteAction.CASCADE)
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "movie_id", referencedColumnName = "id")
 	private Movie movie;
 
 	public Integer getId() {

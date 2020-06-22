@@ -119,6 +119,7 @@ public class MovieController {
     		
     		return new ResponseEntity<String>(HttpStatus.OK); 
     	} catch (Exception e) {
+    		log.error("Movie not deleted", e);
     		return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		}
     }

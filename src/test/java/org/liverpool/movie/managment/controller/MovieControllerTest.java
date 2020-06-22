@@ -44,6 +44,13 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * MovieController test
+ * If you face any problem in executing this test try to switch to "test runner" engine when performing "run configuration" of this junit test
+ * 
+ * @author daniele.dagostino
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
@@ -135,9 +142,9 @@ public class MovieControllerTest {
 	
 	@Test
 	@Order(5)
-	public void getDeleteById() throws Exception {
+	public void deleteById() throws Exception {
 		
-		this.mockMvc.perform(delete(ApiBaseUrl + "delete/1")).andExpect(status().isOk());
+		this.mockMvc.perform(delete(ApiBaseUrl + "delete/2")).andExpect(status().isOk());
 	}
 	
 	@Test
