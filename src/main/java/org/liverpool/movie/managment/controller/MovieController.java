@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.liverpool.movie.managment.beanapi.MovieBeanApi;
 import org.liverpool.movie.managment.component.Messages;
+import org.liverpool.movie.managment.model.Movie;
 import org.liverpool.movie.managment.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -150,5 +151,25 @@ public class MovieController {
 	  	} else {
 	  		return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 	  	}
+	}
+    
+    @ApiOperation(
+		      value = "Find a collection of Movies by its Direcotr's name", 
+		      notes = "Returns a collection found of Movies",
+		      response = MovieBeanApi.class,
+		      consumes = "application/json",
+		      produces = "application/json")
+    @ApiResponses(value =
+   	{   
+   		@ApiResponse(code = 200, message = "Movies found")
+   	})
+	@GetMapping(value = "/searchMoviesByDirectorName", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<MovieBeanApi>> searchMoviesByDirectorName(@RequestBody String name) throws Exception	 
+	{
+    	log.info("searchMoviesByDirector method requested");
+  
+    	List<MovieBeanApi> list = movieService.searchMoviesByDirector(name);
+	
+    	return new ResponseEntity<List<MovieBeanApi>>(list, HttpStatus.OK);
 	}
 }

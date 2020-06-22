@@ -38,9 +38,9 @@ public class MovieService implements IGenericCrud<MovieBeanApi> {
 	@Autowired
 	Messages message;
 
-	public List<Movie> searchMoviesByDirector(String directorName) {
+	public List<MovieBeanApi> searchMoviesByDirector(String directorName) {
 		
-		List<Movie> movieList = new ArrayList<Movie>();
+		List<MovieBeanApi> movieList = new ArrayList<MovieBeanApi>();
 		
 		Director director = new Director();
 		director.setName(directorName);
@@ -51,7 +51,7 @@ public class MovieService implements IGenericCrud<MovieBeanApi> {
 		if (optional.isPresent()) {
 			director = optional.get();
 			for (Movie movie : director.getMovies()) {
-				movieList.add(movie);
+				movieList.add(toDTO(movie));
 			}
 			return movieList;
 		} else {

@@ -134,18 +134,4 @@ public class DirectorControllerTest {
 		        .andExpect(status().isOk());				
 	}
 	
-	@Test
-	@Order(6)
-	public void searchMoviesByDirectorName() throws Exception {
-		String directorName = "Martin Scorzese";
-		
-		this.mockMvc.perform(get(ApiBaseUrl + "searchMoviesByDirectorName").contentType(APPLICATION_JSON_UTF8)
-	        .content(directorName)).andDo(print()).andExpect(status().isOk())
-//				.andExpect(jsonPath("$[0].name", is("Taxi Driver")))
-//				.andExpect(jsonPath("$[1].name", is("Taxi Driver")))
-//				.andExpect(jsonPath("$[2].name", is("Taxi Driver")))
-				.andExpect(jsonPath("$", containsInAnyOrder("Taxi Driver", "New York, New York", "Raging Bull")));
-		
-	}
-	
 }

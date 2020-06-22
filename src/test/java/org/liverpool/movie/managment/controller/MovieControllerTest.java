@@ -1,6 +1,9 @@
 package org.liverpool.movie.managment.controller;
 
+import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.beans.HasPropertyWithValue.hasProperty;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -12,7 +15,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.net.URI;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -155,6 +162,17 @@ public class MovieControllerTest {
 		this.mockMvc.perform(put(ApiBaseUrl + "update").contentType(APPLICATION_JSON_UTF8)
 		        .content(requestJson))
 		        .andExpect(status().isOk());				
+	}
+	
+	@Test
+	@Order(8)
+	public void searchMoviesByDirector() throws Exception {
+		String title = "Martin Scorzese";
+		
+		this.mockMvc.perform(get(ApiBaseUrl + "searchMoviesByDirectorName").contentType(APPLICATION_JSON_UTF8)
+		        .content(title))
+		        .andExpect(status().isOk())
+		        .andExpect(jsonPath("$[*].name", containsInAnyOrder("Taxi Driver", "New York, New York", "Raging Bull")));
 	}
 	
 }

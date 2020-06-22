@@ -49,7 +49,7 @@ public class MovieServiceTest {
     @Order(1)    
     public void searchMoviesByDirectorName() throws Exception {
     	
-    	List<Movie> list = movieService.searchMoviesByDirector("Steven Spielberg");
+    	List<MovieBeanApi> list = movieService.searchMoviesByDirector("Steven Spielberg");
     	
     	assertThat(list).size().isGreaterThan(0);
     	assertThat(list, hasItem(
