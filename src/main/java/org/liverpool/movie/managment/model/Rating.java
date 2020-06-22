@@ -42,7 +42,7 @@ public class Rating implements Serializable {
 		updatable = false)
 	private Date insertDate;
 	
-	@OneToOne(fetch = FetchType.LAZY, targetEntity = Movie.class, orphanRemoval = true)
+	@OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Movie movie;
 
