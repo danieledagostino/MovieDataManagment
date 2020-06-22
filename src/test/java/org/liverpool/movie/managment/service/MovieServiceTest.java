@@ -15,6 +15,7 @@ import org.liverpool.movie.managment.beanapi.MovieBeanApi;
 import org.liverpool.movie.managment.model.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScans;
 import org.springframework.data.domain.Example;
@@ -30,11 +31,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.beans.HasPropertyWithValue.hasProperty;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@DataJpaTest
-@Transactional
+@SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
-@ComponentScans({@ComponentScan("org.liverpool.movie.managment.service"),
-	@ComponentScan("org.liverpool.movie.managment.component")})
 public class MovieServiceTest {
 	
 	Movie movie = null;

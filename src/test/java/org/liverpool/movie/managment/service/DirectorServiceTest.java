@@ -11,17 +11,15 @@ import org.junit.runner.RunWith;
 import org.liverpool.movie.managment.beanapi.DirectorBeanApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScans;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@DataJpaTest
+@SpringBootTest
 @Transactional
-@ComponentScans({
-	@ComponentScan("org.liverpool.movie.managment.service"),
-	@ComponentScan("org.liverpool.movie.managment.component")})
 public class DirectorServiceTest {
 	
 	@Autowired
@@ -39,7 +37,7 @@ public class DirectorServiceTest {
     	List<DirectorBeanApi> list = service.searchByName("Steven Spielberg");
     	
     	assertThat(list.size(), is(1));
-    	assertThat(list.get(0).getMovies().size(), is(3));
+    	assertThat(list.get(0).getMovies().size(), is(4));
     }
     
 }
