@@ -10,7 +10,7 @@ import org.liverpool.movie.managment.beanapi.MovieBeanApi;
 import org.liverpool.movie.managment.component.Messages;
 import org.liverpool.movie.managment.model.Director;
 import org.liverpool.movie.managment.model.Movie;
-import org.liverpool.movie.managment.projection.RatingProjection;
+import org.liverpool.movie.managment.projection.MovieProjection;
 import org.liverpool.movie.managment.repository.DirectorRepository;
 import org.liverpool.movie.managment.repository.MovieRepository;
 import org.liverpool.movie.managment.repository.RatingRepository;
@@ -61,24 +61,18 @@ public class MovieService implements IGenericCrud<MovieBeanApi> {
 		return movieList;
 	}
 	
-	public List<Movie> searchMoviesWithScoreAbove(BigDecimal score) {
-		List<Movie> movies = new ArrayList<Movie>();
+	public List<MovieBeanApi> searchMoviesWithScoreAbove(BigDecimal score) {
+		List<MovieBeanApi> moviesList = new ArrayList<MovieBeanApi>();
 		
-		List<RatingProjection> ratings = ratingRepository.searchMoviesWithScoreAbove(score);
-		if (ratings.size() > 0) {
-			for (RatingProjection r : ratings) {
-//				if (r.getMovie().size() > 1) {
-//					log.warn("Found more than 1 item for Rating point {}", r.getScore());
-//				}
-				
-//				for (Movie m : r.getMovies()) {
-					movies.add(r.getMovie());
-//				}
+		List<MovieProjection> movies = ratingRepository.searchMoviesWithScoreAbove(score);
+		if (movies.size() > 0) {
+			for (MovieProjection m : movies) {
+				moviesList.add(new MovieBeanApi(m.getId(), m.getName()));
 			}
 		}
 		
 		
-		return movies;
+		return moviesList;
 	}
 
 	@Override

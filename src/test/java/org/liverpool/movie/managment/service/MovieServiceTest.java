@@ -77,7 +77,7 @@ public class MovieServiceTest {
     @Order(3)
     public void searchByRatingScore() throws Exception {
     	
-    	List<Movie> list = movieService.
+    	List<MovieBeanApi> list = movieService.
     			searchMoviesWithScoreAbove(new BigDecimal(2.0));
     		
     	assertThat(list).size().isEqualTo(2);
